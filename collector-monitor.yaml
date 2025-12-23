@@ -1,0 +1,17 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: collector-monitor
+  namespace: default
+  labels:
+    release: monitoring-stack
+spec:
+  selector:
+    matchlabels:
+      #on cible notre service collector
+      app: collector
+  endpoints:
+    - ports: http-8080
+      targetPort: 8080
+      path: /metrics
+      interval: 15

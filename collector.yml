@@ -52,7 +52,8 @@ spec:
   selector:
     app: collector
   ports:
-    - port: 80
+    - name: http-8080
+      port: 80
       targetPort: 8080
 
 ---
