@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: collector
+  namespace: default
+  labels:
+    app: collector
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: collector
+  template:
+    metadata:
+      labels:
+        app: collector
+    spec:
+      containers:
+        - name: collector
+          #Mon image dans mon registry
+          image: ghcr.io/mtk14m/ops-dashboard-collector:v0.1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+
+          #SRE BEST PRACTICE
+          # Kubernetes vérifie /health toutes les 10s. Si ça rate 3 fois, il redémarre la prod.
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+
+          # SRE BEST PRACTICE: Limites de ressources
+          ressources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: collector-svc
+  namespace: default
+spec:
+  selector:
+    app: collector
+  ports:
+    - port: 8080
+      targetPort: 8080
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: collector-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+spec:
+  rules:
+    - host: api.mtk14m.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: collector-svc
+                port:
+                  number: 80
