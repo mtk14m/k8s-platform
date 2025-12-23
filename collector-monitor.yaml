@@ -14,4 +14,4 @@ spec:
     - ports: http-8080
       targetPort: 8080
       path: /metrics
-      interval: 15
+      interval: "15"
