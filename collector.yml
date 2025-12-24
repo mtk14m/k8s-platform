@@ -19,7 +19,7 @@ spec:
       containers:
         - name: collector
           #Mon image dans mon registry
-          image: ghcr.io/mtk14m/ops-dashboard-collector:v0.3S.0
+          image: ghcr.io/mtk14m/ops-dashboard-collector:v0.3.0
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
