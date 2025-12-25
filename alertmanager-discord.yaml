@@ -18,6 +18,8 @@ spec:
         - webhookURL:
             key: url
             name: discord-webhook-secret
-            optional: false
+          apiURL:
+            key: url
+            name: discord-webhook-secret
           title: "🔥 ALERTE INFRA : {{ .GroupLabels.alertname }}"
           message: "{{ .CommonAnnotations.summary }} - {{ .CommonAnnotations.description }}"
