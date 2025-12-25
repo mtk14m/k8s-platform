@@ -6,22 +6,18 @@ metadata:
   labels:
     release: monitoring-stack
 spec:
-  routes:
-    # On groupe les alertes par nom pour éviter les spams
-    groupBy: ["alertname"]
+  route:
+    groupBy: ['alertname']
     groupWait: 30s
     groupInterval: 5m
     repeatInterval: 12h
-    #on envoie tout vers discord
-    receiver: "discord-webhook"
-
----
-receivers:
-  - name: "discord-webhook"
+    receiver: 'discord-webhook'
+  receivers:
+  - name: 'discord-webhook'
     discordConfigs:
-      - webhookUrl:
-          key: url
-          name: discord-webhook-secret # Le nom du secret créé à l'étape 2
-          optional: false
-        title: "🔥 ALERTE INFRA : {{ .GroupLabels.alertname }}"
-        message: "{{ .CommonAnnotations.summary }} - {{ .CommonAnnotations.description }}"
+    - webhookUrl:
+        key: url
+        name: discord-webhook-secret
+        optional: false
+      title: '🔥 ALERTE INFRA : {{ .GroupLabels.alertname }}'
+      message: '{{ .CommonAnnotations.summary }} - {{ .CommonAnnotations.description }}'
