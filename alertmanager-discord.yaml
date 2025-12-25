@@ -17,11 +17,11 @@ spec:
 
 ---
 receivers:
-  - name: 'discord-webhook'
+  - name: "discord-webhook"
     discordConfigs:
-    - webhookUrl:
-        key: url
-        name: discord-webhook-secret # Le nom du secret créé à l'étape 2
-        optional: false
-      title: '🔥 ALERTE INFRA : {{ .GroupLabels.alertname }}'
-      message: '{{ .CommonAnnotations.summary }} - {{ .CommonAnnotations.description }}'
+      - webhookUrl:
+          key: url
+          name: discord-webhook-secret # Le nom du secret créé à l'étape 2
+          optional: false
+        title: "🔥 ALERTE INFRA : {{ .GroupLabels.alertname }}"
+        message: "{{ .CommonAnnotations.summary }} - {{ .CommonAnnotations.description }}"
