@@ -1,23 +1,22 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
-metadata: 
+metadata:
   name: collector-alert
   namespace: default
   labels:
-    # C'est cette etiquette qui permet à prometheus de trouver le fichier 
+    # C'est cette etiquette qui permet à prometheus de trouver le fichier
     release: monitoring-stack
 spec:
   groups:
     - name: collector.rules
-      rules: 
-      - alert: CollectorDown
-        #la condition: si le service est était (O)
-        expr: up{service="collector-svc"} == 0
-        # On attends 1 min avant e pour lancer l'alert
-        for: 1m
-        labels: 
-          severity: critical 
-        annotations: 
-          summary: "URGENT: Le Collector est mort !"
-          description: "Le service ne répond plus au métriques."
-
+      rules:
+        - alert: CollectorDown
+          #la condition: si le service est était (O)
+          expr: up{service="collector-svc"} == 0
+          # On attends 1 min avant e pour lancer l'alert
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "URGENT: Le Collector est mort !"
+            description: "Le service ne répond plus au métriques."
