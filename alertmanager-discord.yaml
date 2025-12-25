@@ -15,7 +15,7 @@ spec:
   receivers:
     - name: "discord-webhook"
       discordConfigs:
-        - webhookUrl:
+        - webhookURL:
             key: url
             name: discord-webhook-secret
             optional: false
