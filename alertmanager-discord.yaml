@@ -23,8 +23,14 @@ spec:
             key: url
             name: discord-webhook-secret
 
-          title: "ALERTE INFRA : {{ .GroupLabels.alertname }}"
+          title: '{{ if eq .Status "firing" }}🔥 ALERTE{{ else }}✅ RÉSOLU{{ end }}: {{ .GroupLabels.alertname }}'
           message: |
+            {{ if eq .Status "firing" }}
+            🔴 **Problème en cours**
+            {{ else }}
+            🟢 **Incident clos**
+            {{ end }}
+
             {{ .CommonAnnotations.summary }}
             {{ .CommonAnnotations.description }}
 
