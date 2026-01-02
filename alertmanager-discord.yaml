@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1alpha1
 kind: AlertmanagerConfig
 metadata:
   name: discord-config-collector
-  namespace: default # <--- CHANGEMENT CRUCIAL ICI
+  namespace: default
   labels:
     release: monitoring-stack
 spec:
@@ -12,14 +12,18 @@ spec:
     groupInterval: 5m
     repeatInterval: 12h
     receiver: "discord-webhook"
-    # Comme on est dans le namespace default, cette route attrapera tout ce qui vient de default
   receivers:
     - name: "discord-webhook"
       discordConfigs:
         - webhookURL:
             key: url
-            name: discord-webhook-secret # Doit exister dans le namespace 'default' (voir étape 1)
-          title: "🔥 ALERTE INFRA : {{ .GroupLabels.alertname }}"
+            name: discord-webhook-secret
+          # bloc url api avec la key
+          apiURL:
+            key: url
+            name: discord-webhook-secret
+
+          title: "ALERTE INFRA : {{ .GroupLabels.alertname }}"
           message: |
             {{ .CommonAnnotations.summary }}
             {{ .CommonAnnotations.description }}
