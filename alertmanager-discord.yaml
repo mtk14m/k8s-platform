@@ -23,16 +23,17 @@ spec:
             key: url
             name: discord-webhook-secret
 
-          title: '{{ if eq .Status "firing" }}🔥 ALERTE{{ else }}✅ RÉSOLU{{ end }}: {{ .GroupLabels.alertname }}'
+          title: '{{ if eq .Status "firing" }} ALERTE{{ else }} RÉSOLU{{ end }}: {{ .GroupLabels.alertname }}'
+          #message intelligent - problème - problème est résolu
           message: |
             {{ if eq .Status "firing" }}
-            🔴 **Problème en cours**
+            **Incident en cours** - Action requise !
             {{ else }}
-            🟢 **Incident clos**
+            **Retour à la normale** - L'incident est clos.
             {{ end }}
 
-            {{ .CommonAnnotations.summary }}
-            {{ .CommonAnnotations.description }}
+            **Résumé:** {{ .CommonAnnotations.summary }}
+            **Détail:** {{ .CommonAnnotations.description }}
 
             *Service:* {{ .CommonLabels.service }}
             *Pod:* {{ .CommonLabels.pod }}
