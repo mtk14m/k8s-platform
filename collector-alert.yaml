@@ -17,6 +17,7 @@ spec:
           for: 1m
           labels:
             severity: critical
+            namespace: default #ajout du label namespace pour permettre à prom de bien router alert
           annotations:
             summary: "URGENT: Le Collector est mort !"
             description: "Le service ne répond plus au métriques."
