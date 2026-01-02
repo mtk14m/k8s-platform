@@ -12,7 +12,7 @@ spec:
       rules:
         - alert: CollectorDown
           #la condition: si le service est était (O)
-          expr: up{service="collector-svc"} == 0
+          expr: absent(up{service="collector-svc", job="collector-svc"}) == 1
           # On attends 1 min avant e pour lancer l'alert
           for: 1m
           labels:
